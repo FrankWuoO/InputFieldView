@@ -33,7 +33,6 @@ public class InputFieldView: UIView {
         }
     }
 
-
     lazy var container: UIStackView = {
         let view = UIStackView()
         view.axis = .vertical
@@ -66,7 +65,7 @@ public class InputFieldView: UIView {
 
     required init?(coder: NSCoder) {
         appearance = .default
-        inputField = InputField(allowMultipleLines: appearance.allowMultipleLines)
+        inputField = InputField(allowMultipleLines: appearance.allowMultipleLines, placeholder: "請輸入文字")
         super.init(coder: coder)
         
         initVariable()

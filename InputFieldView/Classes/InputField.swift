@@ -18,9 +18,11 @@ protocol InputFieldDelegate: AnyObject {
 class InputField: UIView {
     
     static let textColor: UIColor = UIColor(hex: 0x252729)
+    static let placeholderColor: UIColor = UIColor(hex: 0xA7A7A9)
     static let textFont: UIFont = UIFont.systemFont(ofSize: 15)
-    
+
     let allowMultipleLines: Bool
+    let placeholder: String?
     
     var inputComponent: UIView!
     var text: String {
@@ -34,10 +36,12 @@ class InputField: UIView {
         
     }
     
+    
     weak var delegate: InputFieldDelegate?
 
-    init(allowMultipleLines: Bool) {
+    init(allowMultipleLines: Bool, placeholder: String? = nil) {
         self.allowMultipleLines = allowMultipleLines
+        self.placeholder = placeholder
         super.init(frame: .zero)
         initVariable()
         initLayout()
@@ -45,6 +49,7 @@ class InputField: UIView {
     
     required init?(coder: NSCoder) {
         allowMultipleLines = false
+        placeholder = nil
         super.init(coder: coder)
         initVariable()
         initLayout()
@@ -92,6 +97,10 @@ class InputField: UIView {
     
     func createTextFieldLayout() {
         let textField = UITextField()
+        if let placeholder = placeholder {
+            textField.attributedPlaceholder = NSAttributedString(string:placeholder,
+                                                                 attributes: [.foregroundColor: InputField.placeholderColor])
+        }
         textField.textColor = InputField.textColor
         textField.font = InputField.textFont
         textField.returnKeyType = .default
