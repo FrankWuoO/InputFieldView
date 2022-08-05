@@ -22,7 +22,7 @@ class InputField: UIView {
     static let textFont: UIFont = UIFont.systemFont(ofSize: 15)
 
     let allowMultipleLines: Bool
-    let placeholder: String?
+    var placeholder: String? = nil
     
     var inputComponent: UIView!
     var text: String {
@@ -33,9 +33,9 @@ class InputField: UIView {
             return component.text ?? ""
         default: return ""
         }
-        
     }
     
+    var placeholderLabel: UILabel?
     
     weak var delegate: InputFieldDelegate?
 
@@ -93,6 +93,22 @@ class InputField: UIView {
         textView.heightAnchor.constraint(greaterThanOrEqualToConstant: 32).isActive = true
 
         inputComponent = textView
+        
+        if let placeholder = placeholder {
+            let label = UILabel()
+            label.text = placeholder
+            label.textColor = InputField.placeholderColor
+            label.font = textView.font
+            
+            textView.addSubview(label)
+            label.translatesAutoresizingMaskIntoConstraints = false
+            label.leadingAnchor.constraint(equalTo: textView.leadingAnchor).isActive = true
+            label.trailingAnchor.constraint(greaterThanOrEqualTo: textView.trailingAnchor, constant: 0).isActive = true
+            label.topAnchor.constraint(equalTo: textView.topAnchor, constant: 5).isActive = true
+            label.bottomAnchor.constraint(greaterThanOrEqualTo: textView.bottomAnchor, constant: 0).isActive = true
+            placeholderLabel = label
+        }
+        
     }
     
     func createTextFieldLayout() {
@@ -146,6 +162,7 @@ extension InputField: UITextViewDelegate {
     }
 
     public func textViewDidChange(_ textView: UITextView) {
+        placeholderLabel?.isHidden = !textView.text.isEmpty
         delegate?.inputFieldDidChangeText(self)
     }
 }
