@@ -55,7 +55,7 @@ public class InputFieldView: UIView {
     
     let inputField: InputField
     
-    public init(appearance: Appearance) {
+    public init(appearance: Appearance, placeholder: String?) {
         self.appearance = appearance
         inputField = InputField(allowMultipleLines: appearance.allowMultipleLines)
         super.init(frame: .zero)
@@ -95,7 +95,7 @@ public class InputFieldView: UIView {
         
         container.addArrangedSubview(inputField)
         container.addArrangedSubview(separateView)
-        separateView.backgroundColor = UIColor.gray
+
         separateView.heightAnchor.constraint(equalToConstant: 1).isActive = true
     }
 }
