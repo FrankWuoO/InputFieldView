@@ -108,11 +108,26 @@ class InputField: UIView {
         
         inputComponent = textField
     }
+    
+    // MARK: Setter
+    
+    func setCursorColor(_ color: UIColor?) {
+        switch inputComponent {
+        case let component as UITextView:
+            component.tintColor = color
+        case let component as UITextField:
+            component.tintColor = color
+        default: break
+        }
+    }
+    
 }
 
 // MARK: - Delegate
 
 extension InputField: UITextViewDelegate {
+    // MARK: UITextViewDelegate
+    
     public func textViewDidBeginEditing(_ textView: UITextView) {
         delegate?.inputFieldDidBeginEditing(self)
     }
@@ -127,6 +142,8 @@ extension InputField: UITextViewDelegate {
 }
 
 extension InputField: UITextFieldDelegate {
+    // MARK: UITextFieldDelegate
+    
     public func textFieldDidBeginEditing(_ textField: UITextField) {
         delegate?.inputFieldDidBeginEditing(self)
     }

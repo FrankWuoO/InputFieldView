@@ -12,7 +12,7 @@ public class InputFieldView: UIView {
         public static let `default`: Appearance = Appearance(stateColors: [.normal: UIColor(hex: 0xDBDBDB),
                                                                            .focus: UIColor(hex: 0xFF5537),
                                                                            .error(""): UIColor(hex: 0xC03F45)],
-                                                             allowMultipleLines: true)
+                                                             allowMultipleLines: false)
 
         let stateColors: [State: UIColor]
         let allowMultipleLines: Bool
@@ -47,7 +47,9 @@ public class InputFieldView: UIView {
 
     public var state: State = .normal {
         didSet {
-            separateView.backgroundColor = appearance.stateColors[state]
+            let color = appearance.stateColors[state]
+            inputField.setCursorColor(color)
+            separateView.backgroundColor = color
         }
     }
     
