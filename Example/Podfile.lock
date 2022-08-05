@@ -1,0 +1,16 @@
+PODS:
+  - InputFieldView (0.1.0)
+
+DEPENDENCIES:
+  - InputFieldView (from `../`)
+
+EXTERNAL SOURCES:
+  InputFieldView:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  InputFieldView: fb001d0104fbaaf161794449aaec63d79eeacc0d
+
+PODFILE CHECKSUM: 91dd5c31ee422254eed4fe031082c744676fc096
+
+COCOAPODS: 1.11.2

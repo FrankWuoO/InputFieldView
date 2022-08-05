@@ -1,0 +1,22 @@
+{
+  "name": "InputFieldView",
+  "version": "0.1.0",
+  "summary": "A short description of InputFieldView.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/Frank/InputFieldView",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "Frank": "frankwu.cheng.en@gmail.com"
+  },
+  "source": {
+    "git": "https://github.com/Frank/InputFieldView.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "10.0"
+  },
+  "source_files": "InputFieldView/Classes/**/*"
+}

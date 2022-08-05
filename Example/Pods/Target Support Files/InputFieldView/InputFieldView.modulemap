@@ -1,0 +1,6 @@
+framework module InputFieldView {
+  umbrella header "InputFieldView-umbrella.h"
+
+  export *
+  module * { export * }
+}
