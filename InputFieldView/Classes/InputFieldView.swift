@@ -13,15 +13,18 @@ public class InputFieldView: UIView {
                                                                            .focus: UIColor(hex: 0xFF5537),
                                                                            .error(""): UIColor(hex: 0xC03F45)],
                                                              backgroundColor: UIColor.white,
-                                                             strokeWidth: 1.0,
+                                                             strokeWidth: 0.5,
+                                                             allowMultipleLines: true,
                                                              placeholder: nil,
-                                                             allowMultipleLines: true)
+                                                             labelText: "Title")
 
         public var stateColors: [State: UIColor]
         public var backgroundColor: UIColor
         public var strokeWidth: CGFloat
-        public var placeholder: String?
         public var allowMultipleLines: Bool
+        
+        public var placeholder: String?
+        public var labelText: String?
     }
 
     public enum State: Equatable, Hashable {
@@ -68,6 +71,8 @@ public class InputFieldView: UIView {
         }
     }
     
+    private(set) var titleLabel: UILabel?
+    
     private(set) var inputField: InputField
     
     public init(appearance: Appearance, placeholder: String?) {
@@ -77,6 +82,7 @@ public class InputFieldView: UIView {
         
         initVariable()
         initLayout()
+        updateAppearance()
     }
 
     required init?(coder: NSCoder) {
@@ -86,6 +92,7 @@ public class InputFieldView: UIView {
         
         initVariable()
         initLayout()
+        updateAppearance()
     }
 
     public override func resignFirstResponder() -> Bool {
@@ -107,17 +114,45 @@ public class InputFieldView: UIView {
         container.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         container.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         container.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+    }
+    
+    func createTitleLabel() {
+        guard titleLabel == nil else { return }
+        let _container = UIStackView()
+        _container.spacing = 4
+        _container.axis = .vertical
         
-        container.addArrangedSubview(inputField)
-        container.addArrangedSubview(separateView)
-
-        separateView.heightAnchor.constraint(equalToConstant: appearance.strokeWidth).isActive = true
+        let label = UILabel()
+        label.textColor = UIColor(hex: 0x252729)
+        label.font = UIFont.systemFont(ofSize: 13)
+        label.numberOfLines = 0
+        label.heightAnchor.constraint(greaterThanOrEqualToConstant: 20).isActive = true
+        
+        _container.addArrangedSubview(label)
+        _container.addArrangedSubview(UIView())
+        container.insertArrangedSubview(_container, at: 0)
+        
+        titleLabel = label
     }
     
     // MARK: UI
     
     func updateAppearance() {
+        if let text = appearance.labelText {
+            createTitleLabel()
+            titleLabel?.text = text
+            titleLabel?.isHidden = false
+        }
+        else {
+            titleLabel?.text = nil
+            titleLabel?.isHidden = true
+        }
+        
+        container.addArrangedSubview(inputField)
+        container.addArrangedSubview(separateView)
+        
         inputField.setPlaceholder(appearance.placeholder)
+        separateView.heightAnchor.constraint(equalToConstant: appearance.strokeWidth).isActive = true
     }
     
     func updateInputField(_ inputField: InputField) {
