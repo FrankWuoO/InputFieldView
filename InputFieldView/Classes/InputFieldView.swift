@@ -12,10 +12,12 @@ public class InputFieldView: UIView {
         public static let `default`: Appearance = Appearance(stateColors: [.normal: UIColor(hex: 0xDBDBDB),
                                                                            .focus: UIColor(hex: 0xFF5537),
                                                                            .error(""): UIColor(hex: 0xC03F45)],
+                                                             backgroundColor: UIColor.white,
                                                              placeholder: nil,
                                                              allowMultipleLines: true)
 
         public var stateColors: [State: UIColor]
+        public var backgroundColor: UIColor
         public var placeholder: String?
         public var allowMultipleLines: Bool
     }
@@ -48,7 +50,7 @@ public class InputFieldView: UIView {
         didSet{
             if oldValue.allowMultipleLines != appearance.allowMultipleLines {
                 let newField = InputField(allowMultipleLines: appearance.allowMultipleLines,
-                                          placeholder: appearance.placeholder)
+                                          placeholder: appearance.placeholder, backgroundColor: appearance.backgroundColor)
                 updateInputField(newField)
             }
 
@@ -68,7 +70,7 @@ public class InputFieldView: UIView {
     
     public init(appearance: Appearance, placeholder: String?) {
         self.appearance = appearance
-        inputField = InputField(allowMultipleLines: appearance.allowMultipleLines, placeholder: appearance.placeholder)
+        inputField = InputField(allowMultipleLines: appearance.allowMultipleLines, placeholder: appearance.placeholder, backgroundColor: appearance.backgroundColor)
         super.init(frame: .zero)
         
         initVariable()
@@ -77,7 +79,7 @@ public class InputFieldView: UIView {
 
     required init?(coder: NSCoder) {
         appearance = .default
-        inputField = InputField(allowMultipleLines: appearance.allowMultipleLines, placeholder: appearance.placeholder)
+        inputField = InputField(allowMultipleLines: appearance.allowMultipleLines, placeholder: appearance.placeholder, backgroundColor: appearance.backgroundColor)
         super.init(coder: coder)
         
         initVariable()

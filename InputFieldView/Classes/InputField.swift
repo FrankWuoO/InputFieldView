@@ -39,12 +39,13 @@ class InputField: UIView {
     
     weak var delegate: InputFieldDelegate?
 
-    init(allowMultipleLines: Bool, placeholder: String? = nil) {
+    init(allowMultipleLines: Bool, placeholder: String? = nil, backgroundColor: UIColor) {
         self.allowMultipleLines = allowMultipleLines
         self.placeholder = placeholder
         super.init(frame: .zero)
         initVariable()
         initLayout()
+        self.backgroundColor = backgroundColor
     }
     
     required init?(coder: NSCoder) {
@@ -76,6 +77,7 @@ class InputField: UIView {
         
     func createTextViewLayout() {
         let textView = UITextView()
+        textView.backgroundColor = UIColor.clear
         textView.textColor = InputField.textColor
         textView.font = InputField.textFont
         textView.isScrollEnabled = false
@@ -105,6 +107,7 @@ class InputField: UIView {
             textField.attributedPlaceholder = NSAttributedString(string:placeholder,
                                                                  attributes: [.foregroundColor: InputField.placeholderColor])
         }
+        textField.backgroundColor = UIColor.clear
         textField.textColor = InputField.textColor
         textField.font = InputField.textFont
         textField.returnKeyType = .default
