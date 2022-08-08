@@ -95,20 +95,8 @@ class InputField: UIView {
         inputComponent = textView
         
         if let placeholder = placeholder {
-            let label = UILabel()
-            label.text = placeholder
-            label.textColor = InputField.placeholderColor
-            label.font = textView.font
-            
-            textView.addSubview(label)
-            label.translatesAutoresizingMaskIntoConstraints = false
-            label.leadingAnchor.constraint(equalTo: textView.leadingAnchor).isActive = true
-            label.trailingAnchor.constraint(greaterThanOrEqualTo: textView.trailingAnchor, constant: 0).isActive = true
-            label.topAnchor.constraint(equalTo: textView.topAnchor, constant: 5).isActive = true
-            label.bottomAnchor.constraint(greaterThanOrEqualTo: textView.bottomAnchor, constant: 0).isActive = true
-            placeholderLabel = label
+            createPlaceholderLabel(text: placeholder, on: textView)
         }
-        
     }
     
     func createTextFieldLayout() {
@@ -134,6 +122,22 @@ class InputField: UIView {
         inputComponent = textField
     }
     
+    func createPlaceholderLabel(text: String, on textView: UITextView) {
+        let label = UILabel()
+        label.text = text
+        label.textColor = InputField.placeholderColor
+        label.font = textView.font
+        
+        textView.addSubview(label)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.leadingAnchor.constraint(equalTo: textView.leadingAnchor).isActive = true
+        label.trailingAnchor.constraint(greaterThanOrEqualTo: textView.trailingAnchor, constant: 0).isActive = true
+        label.topAnchor.constraint(equalTo: textView.topAnchor, constant: 5).isActive = true
+        label.bottomAnchor.constraint(greaterThanOrEqualTo: textView.bottomAnchor, constant: 0).isActive = true
+        
+        placeholderLabel = label
+    }
+    
     // MARK: Setter
     
     func setCursorColor(_ color: UIColor?) {
@@ -146,6 +150,25 @@ class InputField: UIView {
         }
     }
     
+    func setPlaceholder(_ placeholder: String?) {
+        switch inputComponent {
+        case let component as UITextView:
+            if let placeholder = placeholder {
+                if let placeholderLabel = placeholderLabel {
+                    placeholderLabel.text = placeholder
+                }
+                else {
+                    createPlaceholderLabel(text: placeholder, on: component)
+                }
+            }
+            else {
+                placeholderLabel?.text = nil
+            }
+        case let component as UITextField:
+            component.placeholder = placeholder
+        default: break
+        }
+    }
 }
 
 // MARK: - Delegate

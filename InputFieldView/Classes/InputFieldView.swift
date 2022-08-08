@@ -12,10 +12,12 @@ public class InputFieldView: UIView {
         public static let `default`: Appearance = Appearance(stateColors: [.normal: UIColor(hex: 0xDBDBDB),
                                                                            .focus: UIColor(hex: 0xFF5537),
                                                                            .error(""): UIColor(hex: 0xC03F45)],
-                                                             allowMultipleLines: false)
+                                                             placeholder: nil,
+                                                             allowMultipleLines: true)
 
-        let stateColors: [State: UIColor]
-        let allowMultipleLines: Bool
+        public var stateColors: [State: UIColor]
+        public var placeholder: String?
+        public var allowMultipleLines: Bool
     }
 
     public enum State: Equatable, Hashable {
@@ -42,7 +44,17 @@ public class InputFieldView: UIView {
     
     lazy var separateView: UIView = UIView()
 
-    public let appearance: Appearance
+    public var appearance: Appearance {
+        didSet{
+            if oldValue.allowMultipleLines != appearance.allowMultipleLines {
+                let newField = InputField(allowMultipleLines: appearance.allowMultipleLines,
+                                          placeholder: appearance.placeholder)
+                updateInputField(newField)
+            }
+
+            updateAppearance()
+        }
+    }
 
     public var state: State = .normal {
         didSet {
@@ -52,11 +64,11 @@ public class InputFieldView: UIView {
         }
     }
     
-    let inputField: InputField
+    private(set) var inputField: InputField
     
     public init(appearance: Appearance, placeholder: String?) {
         self.appearance = appearance
-        inputField = InputField(allowMultipleLines: appearance.allowMultipleLines)
+        inputField = InputField(allowMultipleLines: appearance.allowMultipleLines, placeholder: appearance.placeholder)
         super.init(frame: .zero)
         
         initVariable()
@@ -65,7 +77,7 @@ public class InputFieldView: UIView {
 
     required init?(coder: NSCoder) {
         appearance = .default
-        inputField = InputField(allowMultipleLines: appearance.allowMultipleLines, placeholder: "請輸入文字")
+        inputField = InputField(allowMultipleLines: appearance.allowMultipleLines, placeholder: appearance.placeholder)
         super.init(coder: coder)
         
         initVariable()
@@ -97,6 +109,23 @@ public class InputFieldView: UIView {
 
         separateView.heightAnchor.constraint(equalToConstant: 1).isActive = true
     }
+    
+    // MARK: UI
+    
+    func updateAppearance() {
+        inputField.setPlaceholder(appearance.placeholder)
+    }
+    
+    func updateInputField(_ inputField: InputField) {
+        if let index = container.subviews.index(of: self.inputField) {
+            container.insertArrangedSubview(inputField, at: index)
+            self.inputField.removeFromSuperview()
+            self.inputField = inputField
+            
+            inputField.delegate = self
+        }
+    }
+
 }
 
 // MARK: - Delegate
