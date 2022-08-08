@@ -13,11 +13,13 @@ public class InputFieldView: UIView {
                                                                            .focus: UIColor(hex: 0xFF5537),
                                                                            .error(""): UIColor(hex: 0xC03F45)],
                                                              backgroundColor: UIColor.white,
+                                                             strokeWidth: 1.0,
                                                              placeholder: nil,
                                                              allowMultipleLines: true)
 
         public var stateColors: [State: UIColor]
         public var backgroundColor: UIColor
+        public var strokeWidth: CGFloat
         public var placeholder: String?
         public var allowMultipleLines: Bool
     }
@@ -109,7 +111,7 @@ public class InputFieldView: UIView {
         container.addArrangedSubview(inputField)
         container.addArrangedSubview(separateView)
 
-        separateView.heightAnchor.constraint(equalToConstant: 1).isActive = true
+        separateView.heightAnchor.constraint(equalToConstant: appearance.strokeWidth).isActive = true
     }
     
     // MARK: UI
