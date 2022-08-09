@@ -7,6 +7,15 @@
 
 import Foundation
 
+class InputFieldFactory {
+    static func make(for appearance: InputFieldView.Appearance) -> InputField {
+        return InputField(allowMultipleLines: appearance.allowMultipleLines,
+                          placeholder: appearance.placeholder,
+                          backgroundColor: appearance.backgroundColor,
+                          underLineHeight: appearance.strokeWidth)
+    }
+}
+
 public class InputFieldView: UIView {
     public struct Appearance {
         public static let `default`: Appearance = Appearance(stateColors: [.normal: UIColor(hex: 0xDBDBDB),
@@ -52,8 +61,7 @@ public class InputFieldView: UIView {
     public var appearance: Appearance {
         didSet{
             if oldValue.allowMultipleLines != appearance.allowMultipleLines {
-                let newField = InputField(allowMultipleLines: appearance.allowMultipleLines,
-                                          placeholder: appearance.placeholder, backgroundColor: appearance.backgroundColor, underLineHeight: appearance.strokeWidth)
+                let newField = InputFieldFactory.make(for: appearance)
                 updateInputField(newField)
             }
 
@@ -75,7 +83,7 @@ public class InputFieldView: UIView {
     
     public init(appearance: Appearance, placeholder: String?) {
         self.appearance = appearance
-        inputField = InputField(allowMultipleLines: appearance.allowMultipleLines, placeholder: appearance.placeholder, backgroundColor: appearance.backgroundColor, underLineHeight: appearance.strokeWidth)
+        inputField = InputFieldFactory.make(for: appearance)
         super.init(frame: .zero)
         
         initVariable()
@@ -85,7 +93,7 @@ public class InputFieldView: UIView {
 
     required init?(coder: NSCoder) {
         appearance = .default
-        inputField = InputField(allowMultipleLines: appearance.allowMultipleLines, placeholder: appearance.placeholder, backgroundColor: appearance.backgroundColor, underLineHeight: appearance.strokeWidth)
+        inputField = InputFieldFactory.make(for: appearance)
         super.init(coder: coder)
         
         initVariable()
