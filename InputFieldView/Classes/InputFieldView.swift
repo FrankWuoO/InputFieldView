@@ -60,6 +60,14 @@ public class InputFieldView: UIView {
         return view
     }()
     
+    lazy var topSubcontainer: UIStackView = {
+        let view = UIStackView()
+        view.axis = .vertical
+        view.distribution = .equalSpacing
+        view.spacing = 4
+        view.addArrangedSubview(UIView())
+        return view
+    }()
     
     lazy var bottomSubcontainer: UIStackView = {
         let view = UIStackView()
@@ -91,12 +99,34 @@ public class InputFieldView: UIView {
         }
     }
     
-    private(set) var titleLabel: UILabel?
+    private(set) lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor(hex: 0x252729)
+        label.font = UIFont.systemFont(ofSize: 13)
+        label.numberOfLines = 0
+        label.heightAnchor.constraint(greaterThanOrEqualToConstant: 20).isActive = true
+        return label
+    }()
     
     private(set) var inputField: InputField
     
-    private(set) var helperLabel: UILabel?
+    private(set) lazy var helperLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor(hex: 0x747476)
+        label.font = UIFont.systemFont(ofSize: 13)
+        label.numberOfLines = 0
+        label.heightAnchor.constraint(greaterThanOrEqualToConstant: 20).isActive = true
+        return label
+    }()
     
+    private(set) lazy var errorLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 13)
+        label.numberOfLines = 0
+        label.heightAnchor.constraint(greaterThanOrEqualToConstant: 20).isActive = true
+        return label
+    }()
+
     public init(appearance: Appearance, placeholder: String?) {
         self.appearance = appearance
         inputField = InputFieldFactory.make(for: appearance)
@@ -136,76 +166,40 @@ public class InputFieldView: UIView {
         container.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         container.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         container.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+
+        container.addArrangedSubview(topSubcontainer)
+        container.addArrangedSubview(inputField)
+        container.addArrangedSubview(bottomSubcontainer)
+
+        topSubcontainer.insertArrangedSubview(titleLabel, at: 0)
+        
+        bottomSubcontainer.addArrangedSubview(helperLabel)
+        bottomSubcontainer.addArrangedSubview(errorLabel)
     }
-    
-    func createTitleLabel() {
-        guard titleLabel == nil else { return }
-        let _container = UIStackView()
-        _container.spacing = 4
-        _container.axis = .vertical
-        
-        let label = UILabel()
-        label.textColor = UIColor(hex: 0x252729)
-        label.font = UIFont.systemFont(ofSize: 13)
-        label.numberOfLines = 0
-        label.heightAnchor.constraint(greaterThanOrEqualToConstant: 20).isActive = true
-        
-        _container.addArrangedSubview(label)
-        _container.addArrangedSubview(UIView())
-        container.insertArrangedSubview(_container, at: 0)
-        
-        titleLabel = label
-    }
-    
-    func createHelperLabel() {
-        guard helperLabel == nil else { return }
-        
-        let label = UILabel()
-        label.textColor = UIColor(hex: 0x747476)
-        label.font = UIFont.systemFont(ofSize: 13)
-        label.numberOfLines = 0
-        label.heightAnchor.constraint(greaterThanOrEqualToConstant: 20).isActive = true
-        
-        bottomSubcontainer.addArrangedSubview(label)
-        
-        helperLabel = label
-    }
-    
     
     // MARK: UI
     
     func updateAppearance() {
-        if let text = appearance.labelText {
-            createTitleLabel()
-            titleLabel?.text = text
-            titleLabel?.isHidden = false
+        titleLabel.text = appearance.labelText
+        if let text = titleLabel.text, !text.isEmpty {
+            titleLabel.isHidden = false
         }
         else {
-            titleLabel?.text = nil
-            titleLabel?.isHidden = true
+            titleLabel.isHidden = true
+        }
+        
+        helperLabel.text = appearance.helperText
+        if let text = helperLabel.text, !text.isEmpty {
+            helperLabel.isHidden = false
+        }
+        else {
+            helperLabel.isHidden = true
         }
         
         inputField.setPlaceholder(appearance.placeholder)
         inputField.setUnderLineHeight(appearance.strokeWidth)
-    
-        if let text = appearance.helperText {
-            createHelperLabel()
-            helperLabel?.text = text
-            helperLabel?.isHidden = false
-        }
-        else {
-            helperLabel?.text = nil
-            helperLabel?.isHidden = true
-        }
-        
-        container.addArrangedSubview(inputField)
-        container.addArrangedSubview(bottomSubcontainer)
-        checkBottomSubcontainer()
-    }
-    
-    func checkBottomSubcontainer() {
-        let isHelperLabelHidden = helperLabel?.isHidden ?? true
-        bottomSubcontainer.isHidden = isHelperLabelHidden
+            
+        bottomSubcontainer.isHidden = helperLabel.isHidden && errorLabel.isHidden
     }
     
     func updateInputField(_ inputField: InputField) {
