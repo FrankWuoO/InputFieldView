@@ -25,7 +25,8 @@ public class InputFieldView: UIView {
                                                              strokeWidth: 0.5,
                                                              allowMultipleLines: true,
                                                              placeholder: nil,
-                                                             labelText: "Title")
+                                                             labelText: "Title",
+                                                             helperText: "This is helper text")
 
         public var stateColors: [State: UIColor]
         public var backgroundColor: UIColor
@@ -34,6 +35,7 @@ public class InputFieldView: UIView {
         
         public var placeholder: String?
         public var labelText: String?
+        public var helperText: String?
     }
 
     public enum State: Equatable, Hashable {
@@ -58,6 +60,16 @@ public class InputFieldView: UIView {
         return view
     }()
     
+    
+    lazy var bottomSubcontainer: UIStackView = {
+        let view = UIStackView()
+        view.axis = .vertical
+        view.distribution = .equalSpacing
+        view.spacing = 4
+        view.addArrangedSubview(UIView())
+        return view
+    }()
+    
     public var appearance: Appearance {
         didSet{
             if oldValue.allowMultipleLines != appearance.allowMultipleLines {
@@ -66,6 +78,8 @@ public class InputFieldView: UIView {
             }
 
             updateAppearance()
+            let state = self.state
+            self.state = state
         }
     }
 
@@ -80,6 +94,8 @@ public class InputFieldView: UIView {
     private(set) var titleLabel: UILabel?
     
     private(set) var inputField: InputField
+    
+    private(set) var helperLabel: UILabel?
     
     public init(appearance: Appearance, placeholder: String?) {
         self.appearance = appearance
@@ -141,6 +157,21 @@ public class InputFieldView: UIView {
         titleLabel = label
     }
     
+    func createHelperLabel() {
+        guard helperLabel == nil else { return }
+        
+        let label = UILabel()
+        label.textColor = UIColor(hex: 0x747476)
+        label.font = UIFont.systemFont(ofSize: 13)
+        label.numberOfLines = 0
+        label.heightAnchor.constraint(greaterThanOrEqualToConstant: 20).isActive = true
+        
+        bottomSubcontainer.addArrangedSubview(label)
+        
+        helperLabel = label
+    }
+    
+    
     // MARK: UI
     
     func updateAppearance() {
@@ -154,10 +185,27 @@ public class InputFieldView: UIView {
             titleLabel?.isHidden = true
         }
         
-        container.addArrangedSubview(inputField)
-        
         inputField.setPlaceholder(appearance.placeholder)
         inputField.setUnderLineHeight(appearance.strokeWidth)
+    
+        if let text = appearance.helperText {
+            createHelperLabel()
+            helperLabel?.text = text
+            helperLabel?.isHidden = false
+        }
+        else {
+            helperLabel?.text = nil
+            helperLabel?.isHidden = true
+        }
+        
+        container.addArrangedSubview(inputField)
+        container.addArrangedSubview(bottomSubcontainer)
+        checkBottomSubcontainer()
+    }
+    
+    func checkBottomSubcontainer() {
+        let isHelperLabelHidden = helperLabel?.isHidden ?? true
+        bottomSubcontainer.isHidden = isHelperLabelHidden
     }
     
     func updateInputField(_ inputField: InputField) {
