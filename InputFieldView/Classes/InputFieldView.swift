@@ -49,13 +49,11 @@ public class InputFieldView: UIView {
         return view
     }()
     
-    lazy var separateView: UIView = UIView()
-
     public var appearance: Appearance {
         didSet{
             if oldValue.allowMultipleLines != appearance.allowMultipleLines {
                 let newField = InputField(allowMultipleLines: appearance.allowMultipleLines,
-                                          placeholder: appearance.placeholder, backgroundColor: appearance.backgroundColor)
+                                          placeholder: appearance.placeholder, backgroundColor: appearance.backgroundColor, underLineHeight: appearance.strokeWidth)
                 updateInputField(newField)
             }
 
@@ -67,7 +65,7 @@ public class InputFieldView: UIView {
         didSet {
             let color = appearance.stateColors[state]
             inputField.setCursorColor(color)
-            separateView.backgroundColor = color
+            inputField.underLine.backgroundColor = color
         }
     }
     
@@ -77,7 +75,7 @@ public class InputFieldView: UIView {
     
     public init(appearance: Appearance, placeholder: String?) {
         self.appearance = appearance
-        inputField = InputField(allowMultipleLines: appearance.allowMultipleLines, placeholder: appearance.placeholder, backgroundColor: appearance.backgroundColor)
+        inputField = InputField(allowMultipleLines: appearance.allowMultipleLines, placeholder: appearance.placeholder, backgroundColor: appearance.backgroundColor, underLineHeight: appearance.strokeWidth)
         super.init(frame: .zero)
         
         initVariable()
@@ -87,7 +85,7 @@ public class InputFieldView: UIView {
 
     required init?(coder: NSCoder) {
         appearance = .default
-        inputField = InputField(allowMultipleLines: appearance.allowMultipleLines, placeholder: appearance.placeholder, backgroundColor: appearance.backgroundColor)
+        inputField = InputField(allowMultipleLines: appearance.allowMultipleLines, placeholder: appearance.placeholder, backgroundColor: appearance.backgroundColor, underLineHeight: appearance.strokeWidth)
         super.init(coder: coder)
         
         initVariable()
@@ -149,10 +147,9 @@ public class InputFieldView: UIView {
         }
         
         container.addArrangedSubview(inputField)
-        container.addArrangedSubview(separateView)
         
         inputField.setPlaceholder(appearance.placeholder)
-        separateView.heightAnchor.constraint(equalToConstant: appearance.strokeWidth).isActive = true
+        inputField.setUnderLineHeight(appearance.strokeWidth)
     }
     
     func updateInputField(_ inputField: InputField) {

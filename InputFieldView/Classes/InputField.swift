@@ -25,6 +25,9 @@ class InputField: UIView {
     var placeholder: String? = nil
     
     var inputComponent: UIView!
+    var underLine: UIView = UIView()
+    var underLineHeightConstraint: NSLayoutConstraint?
+
     var text: String {
         switch inputComponent {
         case let component as UITextView:
@@ -37,11 +40,14 @@ class InputField: UIView {
     
     var placeholderLabel: UILabel?
     
+    let underLineHeight: CGFloat
+    
     weak var delegate: InputFieldDelegate?
 
-    init(allowMultipleLines: Bool, placeholder: String? = nil, backgroundColor: UIColor) {
+    init(allowMultipleLines: Bool, placeholder: String? = nil, backgroundColor: UIColor, underLineHeight: CGFloat) {
         self.allowMultipleLines = allowMultipleLines
         self.placeholder = placeholder
+        self.underLineHeight = underLineHeight
         super.init(frame: .zero)
         initVariable()
         initLayout()
@@ -51,6 +57,7 @@ class InputField: UIView {
     required init?(coder: NSCoder) {
         allowMultipleLines = false
         placeholder = nil
+        underLineHeight = 0.5
         super.init(coder: coder)
         initVariable()
         initLayout()
@@ -73,6 +80,17 @@ class InputField: UIView {
         else {
             createTextFieldLayout()
         }
+        
+        addSubview(underLine)
+        underLine.translatesAutoresizingMaskIntoConstraints = false
+        let underLineHeightConstraint = underLine.heightAnchor.constraint(equalToConstant: underLineHeight)
+        underLineHeightConstraint.isActive = true
+        self.underLineHeightConstraint = underLineHeightConstraint
+        
+        underLine.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+        underLine.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+        underLine.topAnchor.constraint(equalTo: inputComponent.bottomAnchor).isActive = true
+        underLine.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
     }
         
     func createTextViewLayout() {
@@ -89,7 +107,6 @@ class InputField: UIView {
         textView.translatesAutoresizingMaskIntoConstraints = false
         
         textView.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        textView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         textView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         textView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         textView.heightAnchor.constraint(greaterThanOrEqualToConstant: 32).isActive = true
@@ -117,7 +134,6 @@ class InputField: UIView {
         textField.translatesAutoresizingMaskIntoConstraints = false
         
         textField.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        textField.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         textField.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         textField.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         textField.heightAnchor.constraint(equalToConstant: 32).isActive = true
@@ -171,6 +187,14 @@ class InputField: UIView {
             component.placeholder = placeholder
         default: break
         }
+    }
+    
+    func setUnderLineColor(_ color: UIColor?) {
+        underLine.backgroundColor = color
+    }
+    
+    func setUnderLineHeight(_ height: CGFloat) {
+        underLineHeightConstraint?.constant = height
     }
 }
 
