@@ -25,4 +25,8 @@ extension UIColor {
             a: a
         )
     }
+    
+    static var titleNormalColor: UIColor {
+        return UIColor(hex: 0x252729)
+    }
 }
