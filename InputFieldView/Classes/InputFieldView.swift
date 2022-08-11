@@ -264,7 +264,7 @@ public class InputFieldView: UIView {
     }
     
     func updateInputField(_ inputField: InputField) {
-        if let index = container.subviews.index(of: self.inputField) {
+        if let index = container.subviews.firstIndex(of: self.inputField) {
             container.insertArrangedSubview(inputField, at: index)
             self.inputField.removeFromSuperview()
             self.inputField = inputField
