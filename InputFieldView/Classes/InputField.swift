@@ -49,7 +49,6 @@ class InputField: UIView {
         self.placeholder = placeholder
         self.underLineHeight = underLineHeight
         super.init(frame: .zero)
-        initVariable()
         initLayout()
         self.backgroundColor = backgroundColor
     }
@@ -59,7 +58,6 @@ class InputField: UIView {
         placeholder = nil
         underLineHeight = 0.5
         super.init(coder: coder)
-        initVariable()
         initLayout()
     }
     
@@ -68,10 +66,6 @@ class InputField: UIView {
     }
     
     //MARK: Init
-    
-    private func initVariable() {
-        
-    }
     
     private func initLayout() {
         if allowMultipleLines {

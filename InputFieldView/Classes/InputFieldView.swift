@@ -146,7 +146,6 @@ public class InputFieldView: UIView {
 
     public var state: State = .normal {
         didSet {
-            print("-D state: \(oldValue) -> \(state)")
             let color = appearance.stateColors[state]
             inputField.setCursorColor(color)
             inputField.underLine.backgroundColor = color
