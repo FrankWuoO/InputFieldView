@@ -26,6 +26,7 @@ public protocol InputFieldViewDelegate: AnyObject {
 
 public class InputFieldView: UIView {
     public struct Appearance {
+        
         public static let `default`: Appearance = Appearance(stateColors: [.normal: UIColor(hex: 0xDBDBDB),
                                                                            .focus: UIColor(hex: 0xFF5537),
                                                                            .error(""): UIColor(hex: 0xC03F45)],
@@ -44,6 +45,16 @@ public class InputFieldView: UIView {
         public var placeholder: String?
         public var labelText: String?
         public var helperText: String?
+        
+        public init(stateColors: [InputFieldView.State : UIColor], backgroundColor: UIColor, strokeWidth: CGFloat, allowMultipleLines: Bool, placeholder: String? = nil, labelText: String? = nil, helperText: String? = nil) {
+            self.stateColors = stateColors
+            self.backgroundColor = backgroundColor
+            self.strokeWidth = strokeWidth
+            self.allowMultipleLines = allowMultipleLines
+            self.placeholder = placeholder
+            self.labelText = labelText
+            self.helperText = helperText
+        }
     }
 
     public enum State: Hashable, Equatable {
@@ -172,7 +183,7 @@ public class InputFieldView: UIView {
     public weak var delegate: InputFieldViewDelegate?
     
 
-    public init(appearance: Appearance, placeholder: String?) {
+    public init(appearance: Appearance) {
         self.appearance = appearance
         inputField = InputFieldFactory.make(for: appearance)
         super.init(frame: .zero)
