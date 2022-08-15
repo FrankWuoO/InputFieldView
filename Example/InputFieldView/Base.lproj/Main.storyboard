@@ -5,7 +5,6 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -21,7 +20,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="YPQ-AO-7ec">
-                                        <rect key="frame" x="20" y="0.0" width="212" height="527"/>
+                                        <rect key="frame" x="20" y="8" width="212" height="527"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="CRg-k5-d0l">
                                                 <rect key="frame" x="0.0" y="0.0" width="212" height="95"/>
@@ -208,6 +207,9 @@
                                                         <rect key="frame" x="0.0" y="18.5" width="212" height="34"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                         <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <outlet property="delegate" destination="I0l-Fr-848" id="dsL-kN-Ufi"/>
+                                                        </connections>
                                                     </textField>
                                                 </subviews>
                                             </stackView>
@@ -224,6 +226,9 @@
                                                         <rect key="frame" x="0.0" y="18.5" width="212" height="34"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                         <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <outlet property="delegate" destination="I0l-Fr-848" id="pHK-aV-RVj"/>
+                                                        </connections>
                                                     </textField>
                                                 </subviews>
                                             </stackView>
@@ -240,6 +245,9 @@
                                                         <rect key="frame" x="0.0" y="18.5" width="212" height="34"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                         <textInputTraits key="textInputTraits"/>
+                                                        <connections>
+                                                            <outlet property="delegate" destination="I0l-Fr-848" id="r6I-BN-eY6"/>
+                                                        </connections>
                                                     </textField>
                                                 </subviews>
                                             </stackView>
@@ -251,7 +259,7 @@
                                     <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="YPQ-AO-7ec" secondAttribute="bottom" id="JKW-WL-LZK"/>
                                     <constraint firstAttribute="trailing" secondItem="YPQ-AO-7ec" secondAttribute="trailing" constant="20" id="XFc-cy-ecv"/>
                                     <constraint firstItem="YPQ-AO-7ec" firstAttribute="leading" secondItem="E5l-zA-OWQ" secondAttribute="leading" constant="20" id="aeP-dj-prs"/>
-                                    <constraint firstItem="YPQ-AO-7ec" firstAttribute="top" secondItem="E5l-zA-OWQ" secondAttribute="top" id="kk8-Cl-VAa"/>
+                                    <constraint firstItem="YPQ-AO-7ec" firstAttribute="top" secondItem="E5l-zA-OWQ" secondAttribute="top" constant="8" id="kk8-Cl-VAa"/>
                                 </constraints>
                                 <viewLayoutGuide key="contentLayoutGuide" id="Sj5-q5-5eU"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="PGW-3S-TpM"/>
@@ -330,7 +338,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="CEX-J6-GqG">
                                 <rect key="frame" x="20" y="60" width="335" height="31"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Allow empty text" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iqg-Oq-Md6">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Check empty text" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iqg-Oq-Md6">
                                         <rect key="frame" x="0.0" y="0.0" width="282" height="31"/>
                                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="12"/>
                                         <nil key="textColor"/>
@@ -346,7 +354,7 @@
                             </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="2qu-xO-3Bn"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" white="0.94999999999999996" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="CEX-J6-GqG" firstAttribute="top" secondItem="2qu-xO-3Bn" secondAttribute="top" constant="16" id="Rjd-OD-rf6"/>
                             <constraint firstItem="2qu-xO-3Bn" firstAttribute="trailing" secondItem="CEX-J6-GqG" secondAttribute="trailing" constant="20" id="eei-nZ-TRG"/>
@@ -388,9 +396,4 @@
             <point key="canvasLocation" x="1884" y="954.87256371814101"/>
         </scene>
     </scenes>
-    <resources>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-    </resources>
 </document>

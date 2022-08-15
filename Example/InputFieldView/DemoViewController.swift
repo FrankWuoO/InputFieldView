@@ -13,7 +13,7 @@ class DemoViewController: UIViewController {
     @IBOutlet var allowEmptyTextView: UIStackView!
 
     var appearance: InputFieldView.Appearance?
-    var allowEmptyText: Bool = true
+    var checkEmptyText: Bool = true
 
     var fieldView: InputFieldView?
 
@@ -44,22 +44,22 @@ class DemoViewController: UIViewController {
     }
 
     @IBAction func switchedAllowEmptyText(_ sender: UISwitch) {
-        allowEmptyText = sender.isOn
+        checkEmptyText = sender.isOn
         view.endEditing(true)
     }
 
     func checkTextIfNeeded() {
         guard let fieldView = fieldView else { return }
-        if allowEmptyText {
-            fieldView.state = .normal
-        }
-        else {
+        if checkEmptyText {
             if fieldView.text.isEmpty {
                 fieldView.state = .error("Should not be empty")
             }
             else {
                 fieldView.state = .normal
             }
+        }
+        else {
+            fieldView.state = .normal
         }
     }
 
